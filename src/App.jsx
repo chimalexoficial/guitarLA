@@ -7,11 +7,29 @@ import { db } from './data/db';
 function App() {
 
     const [data, setData] = useState(db);
-    console.log(data);
+    const [cart, setCart] = useState([]);
+
+    function addToCart(item) {
+        const itemExists = cart.findIndex((guitar) => item.id === guitar.id);
+        console.log(itemExists);
+
+        if (itemExists >= 0) { // update quantity
+            console.log('Already exists');
+            const updatedCart = [...cart];
+            updatedCart[itemExists].quantity++;
+            setCart(updatedCart);
+        } else { // add to cart
+            console.log('Adding...');
+            item.quantity = 1;
+            setCart((prevState) => [...prevState, item]);
+        }
+
+    }
 
     return (
         <>
-            <Header />
+            <Header
+                cart={cart} />
             <main className="container-xl mt-5">
                 <h2 className="text-center">Our Collection</h2>
 
@@ -19,8 +37,11 @@ function App() {
                     {
                         data.map((guitar) => (
                             <Guitar
-                            key={guitar.id} 
-                            guitar={guitar} />
+                                key={guitar.id}
+                                guitar={guitar}
+                                cart={cart}
+                                setCart={setCart}
+                                addToCart={addToCart} />
                         ))
                     }
                 </div>
@@ -40,11 +61,11 @@ export default App;
 
 
 
-    // // state
-    // useEffect(() => {
-    //     console.log('Listening auth');
-    // }, [auth]) // if empty, just once is executed
+// // state
+// useEffect(() => {
+//     console.log('Listening auth');
+// }, [auth]) // if empty, just once is executed
 
-    // setTimeout(() => {
-    //     setAuth(true)
-    // }, 3000);
+// setTimeout(() => {
+//     setAuth(true)
+// }, 3000);

@@ -1,6 +1,7 @@
 
 
-function Header() {
+function Header({ cart }) {
+
     return (
         <header className="py-5 header">
             <div className="container-xl">
@@ -29,13 +30,15 @@ function Header() {
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {
+                                            cart.map((guitar) => (
                                         <tr>
                                             <td>
-                                                <img className="img-fluid" src="./public/img/guitar_02.jpg" alt="guitar image" />
+                                                <img className="img-fluid" src={`/img/${guitar.image}.jpg`} alt="guitar image" />
                                             </td>
-                                            <td>SRV</td>
+                                            <td>{guitar.name}</td>
                                             <td className="fw-bold">
-                                                $299
+                                                ${guitar.price}
                                             </td>
                                             <td className="flex align-items-start gap-4">
                                                 <button
@@ -44,7 +47,7 @@ function Header() {
                                                 >
                                                     -
                                                 </button>
-                                                1
+                                                {guitar.quantity}
                                                 <button
                                                     type="button"
                                                     className="btn btn-dark"
@@ -61,6 +64,8 @@ function Header() {
                                                 </button>
                                             </td>
                                         </tr>
+                                        ))
+                                    }
                                     </tbody>
                                 </table>
 
