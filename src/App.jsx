@@ -6,6 +6,8 @@ import { db } from './data/db';
 
 function App() {
 
+    const MAX_ITEMS = 5;
+    const MIN_ITEMS = 1;
     const [data, setData] = useState(db);
     const [cart, setCart] = useState([]);
 
@@ -15,6 +17,7 @@ function App() {
 
         if (itemExists >= 0) { // update quantity
             console.log('Already exists');
+            if(cart[itemExists].quantity >= MAX_ITEMS) return;
             const updatedCart = [...cart];
             updatedCart[itemExists].quantity++;
             setCart(updatedCart);
@@ -23,13 +26,55 @@ function App() {
             item.quantity = 1;
             setCart((prevState) => [...prevState, item]);
         }
+    }
 
+    function removeFromCart(id) {
+        console.log('Removing...');
+        console.log(id);
+        setCart(cart.filter(item => item.id !== id));
+    }
+
+    function increaseQuantity(id) {
+        const updatedCart = cart.map((item) => {
+            if(item.id === id && item.quantity < MAX_ITEMS) {
+                return {
+                    ...item,
+                    quantity: item.quantity + 1
+                }
+            }
+            return item;
+        })
+        setCart(updatedCart);
+    }
+
+    function decreaseQuantity(id) {
+        const updatedCart = cart.map((item) => {
+            if(item.id === id && item.quantity > MIN_ITEMS) {
+                return {
+                    ...item,
+                    quantity: item.quantity - 1
+                }
+            }
+            return item;
+        })
+        setCart(updatedCart);
+    }
+
+    function emptyCart() {
+        console.log('cleaning all the items...');
+        setCart([]);
     }
 
     return (
         <>
             <Header
-                cart={cart} />
+                cart={cart}
+                removeFromCart={removeFromCart}
+                increaseQuantity={increaseQuantity} 
+                decreaseQuantity={decreaseQuantity} 
+                emptyCart={emptyCart}
+            />
+
             <main className="container-xl mt-5">
                 <h2 className="text-center">Our Collection</h2>
 
