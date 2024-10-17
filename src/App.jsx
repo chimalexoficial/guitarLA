@@ -1,15 +1,28 @@
 import './App.css';
 import Header from './components/Header';
 import Guitar from './components/Guitar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { db } from './data/db';
 
 function App() {
 
+    const initialCart = () => {
+        const localStorageCart = localStorage.getItem('cart');
+        if(localStorageCart != null) {
+            return JSON.parse(localStorageCart);
+        } else {
+            return [];
+        }
+    }
+
     const MAX_ITEMS = 5;
     const MIN_ITEMS = 1;
     const [data, setData] = useState(db);
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState(initialCart);
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart])
 
     function addToCart(item) {
         const itemExists = cart.findIndex((guitar) => item.id === guitar.id);
@@ -17,7 +30,7 @@ function App() {
 
         if (itemExists >= 0) { // update quantity
             console.log('Already exists');
-            if(cart[itemExists].quantity >= MAX_ITEMS) return;
+            if (cart[itemExists].quantity >= MAX_ITEMS) return;
             const updatedCart = [...cart];
             updatedCart[itemExists].quantity++;
             setCart(updatedCart);
@@ -36,7 +49,7 @@ function App() {
 
     function increaseQuantity(id) {
         const updatedCart = cart.map((item) => {
-            if(item.id === id && item.quantity < MAX_ITEMS) {
+            if (item.id === id && item.quantity < MAX_ITEMS) {
                 return {
                     ...item,
                     quantity: item.quantity + 1
@@ -49,7 +62,7 @@ function App() {
 
     function decreaseQuantity(id) {
         const updatedCart = cart.map((item) => {
-            if(item.id === id && item.quantity > MIN_ITEMS) {
+            if (item.id === id && item.quantity > MIN_ITEMS) {
                 return {
                     ...item,
                     quantity: item.quantity - 1
@@ -65,13 +78,14 @@ function App() {
         setCart([]);
     }
 
+
     return (
         <>
             <Header
                 cart={cart}
                 removeFromCart={removeFromCart}
-                increaseQuantity={increaseQuantity} 
-                decreaseQuantity={decreaseQuantity} 
+                increaseQuantity={increaseQuantity}
+                decreaseQuantity={decreaseQuantity}
                 emptyCart={emptyCart}
             />
 
