@@ -12,7 +12,9 @@ function App() {
         removeFromCart,
         decreaseQuantity,
         increaseQuantity,
-        emptyCart
+        emptyCart,
+        isEmpty,
+        cartTotal
     } = useCart();
 
     return (
@@ -23,6 +25,8 @@ function App() {
                 increaseQuantity={increaseQuantity}
                 decreaseQuantity={decreaseQuantity}
                 emptyCart={emptyCart}
+                isEmpty={isEmpty}
+                cartTotal={cartTotal}
             />
 
             <main className="container-xl mt-5">
@@ -40,7 +44,6 @@ function App() {
                     }
                 </div>
             </main>
-
 
             <footer className="bg-dark mt-5 py-5">
                 <div className="container-xl">
