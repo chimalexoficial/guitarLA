@@ -8,7 +8,7 @@ function App() {
 
     const initialCart = () => {
         const localStorageCart = localStorage.getItem('cart');
-        if(localStorageCart != null) {
+        if (localStorageCart != null) {
             return JSON.parse(localStorageCart);
         } else {
             return [];
@@ -17,7 +17,7 @@ function App() {
 
     const MAX_ITEMS = 5;
     const MIN_ITEMS = 1;
-    const [data, setData] = useState(db);
+    const [data] = useState(db);
     const [cart, setCart] = useState(initialCart);
 
     useEffect(() => {

@@ -17,7 +17,7 @@ function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, empt
                         <div
                             className="cart"
                         >
-                            <img className="img-fluid" src="./public/img/cart.png" alt="cart image" />
+                            <img className="img-fluid" src="/img/cart.png" alt="cart image" />
 
                             <div id="cart" className="bg-white p-3">
                                 {isEmpty ? (
@@ -38,7 +38,7 @@ function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, empt
                                     <tbody>
                                         {
                                             cart.map((guitar) => (
-                                                <tr>
+                                                <tr key={guitar.id}>
                                                     <td>
                                                         <img className="img-fluid" src={`/img/${guitar.image}.jpg`} alt="guitar image" />
                                                     </td>
